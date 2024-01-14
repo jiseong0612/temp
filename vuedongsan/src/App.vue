@@ -1,16 +1,50 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  하위요^^
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+  <!-- v-bind = : 콜론이 v-bind 이다.dd -->
+  <Modal @closeModal="isModalShow=false;" :onerooms="onerooms" :isModalShow="isModalShow" :clicked="clicked"></Modal>
+
+  <div class="menu">
+    <a v-for="(menu,i)  in menus" :key="i">
+      {{menu}}
+    </a>
+  </div>
+
+  <Discount></Discount>
+
+  <Card @openModal="isModalShow =true; clicked = $event;" v-for=" (oneroom,i) in onerooms" :key="i" :oneroom="onerooms[i]" :count="count[i]"></Card>
+  
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import onerooms from './assets/oneroom.js';
+import Discount from './Discount.vue';
+import Modal from './Modal.vue';
+import Card from './Card.vue';
 
 export default {
   name: 'App',
+  data(){
+    return{
+      clicked : 0,
+      onerooms,
+      isModalShow : false,
+      count : [0,0,0,0,0,0],
+      price1 : 60,
+      price2 : 85,
+      color : 'color : blue',
+      products : ['역삼동 원룸','천호동 원룸','마포구 원룸'],
+      menus : ['Home', 'Products','About'],
+    }
+  },
+  methods :{
+    increase(i){
+      ++this.count[i];
+    },
+  },
   components: {
-    HelloWorld
+    Discount,
+    Modal,
+    Card,
   }
 }
 </script>
@@ -22,6 +56,27 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+.menu{
+  background: darkslateblue;
+  padding: 15px;
+  border-radius: 5px;
+}
+.menu a{
+  color : white;
+  padding: 10px;
+}
+.room-img{
+  width: 100%;
+  margin-top: 40px;
+}
+
+body{
+  margin: 0;
+}
+
+div{
+  box-sizing: border-box;
 }
 </style>
