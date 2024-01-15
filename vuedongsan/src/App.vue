@@ -1,8 +1,9 @@
 <template>
 
   <!-- v-bind = : 콜론이 v-bind 이다.dd -->
-  <Modal @closeModal="isModalShow=false;" :onerooms="onerooms" :isModalShow="isModalShow" :clicked="clicked"></Modal>
-
+  <Transition name="fade">
+    <Modal @closeModal="isModalShow=false;" :onerooms="onerooms" :isModalShow="isModalShow" :clicked="clicked"></Modal>
+</Transition>
   <div class="menu">
     <a v-for="(menu,i)  in menus" :key="i">
       {{menu}}
@@ -50,6 +51,10 @@ export default {
 </script>
 
 <style>
+.fade-enter-from { opacity: 0; }
+.fade-enter-active { transition: all 1s; }
+.fade-enter-to { opacity: 1; }
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

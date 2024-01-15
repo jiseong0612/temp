@@ -6,6 +6,7 @@
       <p>{{onerooms[clicked].price}} 원</p>
       <!-- v-model : @input="month = $event.target.value" -->
       <input v-model="month">
+      <input type="range" name="" id="" min="1" max="12" value="1">
       <p>{{month}} 개월 선택함 {{onerooms[clicked].price * month}}</p>
       <button @click="$emit('closeModal')">닫기</button>
     </div>
@@ -20,6 +21,15 @@ export default {
       month : 1,
 
     }
+  },
+  watch : {
+    month(a){
+      const regExp = /[A-Za-z]/ig;
+      if(regExp.test(a)){
+        alert('글자 입력 금지!');
+        this.month = 1;
+      }
+    },
   },
   props:{
     onerooms : Array,
