@@ -19,7 +19,6 @@ export default {
   data(){
     return {
       month : 1,
-
     }
   },
   beforeUpdate() {
