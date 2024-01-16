@@ -22,6 +22,13 @@ export default {
 
     }
   },
+  beforeUpdate() {
+    if(this.month == 2 ){
+      alert('2월 이상 ㄱㄱ')
+    }else if(this.month == -2){
+      this.month = 3;
+    }
+  },
   watch : {
     month(a){
       //정규식 표현

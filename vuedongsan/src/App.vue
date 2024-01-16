@@ -10,7 +10,7 @@
     </a>
   </div>
 
-  <Discount></Discount>
+  <Discount v-if="showDiscount" :discountPercent="discountPercent"></Discount>
 
   <button v-for="(a,i) in sortType" :key="i" @click="priceSort(i)" class="sortBtn">{{sortType[i]}}</button>
   <button @click="sortBack" class="sortBtn">원본 정렬</button>
@@ -29,6 +29,8 @@ export default {
   name: 'App',
   data(){
     return{
+      discountPercent : 30,
+      showDiscount : true,
       clicked : 0,
       originalOnerooms : [...onerooms],
       onerooms,
@@ -77,15 +79,28 @@ export default {
           return 0;
         }
       });
-
       }
     },
+    decressPersend(){
+      setTimeout(() => {
+        clearInterval(interval);
+        this.discountPercent = 0;
+      }, this.discountPercent * 1000);
+
+      let interval = setInterval(()=>{
+        this.discountPercent = this.discountPercent-1;
+      }, 1000);
+      interval;
+    },
+  },
+  mounted() {
+    this.decressPersend();
   },
   components: {
     Discount,
     Modal,
     Card,
-  }
+  },
 }
 </script>
 
