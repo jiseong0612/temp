@@ -12,6 +12,9 @@
 
   <Discount></Discount>
 
+  <button v-for="(a,i) in sortType" :key="i" @click="priceSort(i)" class="sortBtn">{{sortType[i]}}</button>
+  <button @click="sortBack" class="sortBtn">원본 정렬</button>
+
   <Card @openModal="isModalShow =true; clicked = $event;" v-for=" (oneroom,i) in onerooms" :key="i" :oneroom="onerooms[i]" :count="count[i]"></Card>
   
 </template>
@@ -27,12 +30,14 @@ export default {
   data(){
     return{
       clicked : 0,
+      originalOnerooms : [...onerooms],
       onerooms,
       isModalShow : false,
       count : [0,0,0,0,0,0],
       price1 : 60,
       price2 : 85,
       color : 'color : blue',
+      sortType : ['가격낮은순정렬', '가격높은순정렬', '가나다순정렬'],
       products : ['역삼동 원룸','천호동 원룸','마포구 원룸'],
       menus : ['Home', 'Products','About'],
     }
@@ -40,6 +45,40 @@ export default {
   methods :{
     increase(i){
       ++this.count[i];
+    },
+    sortBack(){
+      this.onerooms = [...this.originalOnerooms];
+    },
+    priceSort(sortType){
+      if(sortType == 0){  //가격낮은순정렬
+        this.sortType[sortType];
+
+        this.onerooms.sort(function(a, b){
+          return a.price- b.price;
+        }); 
+      }else if(sortType == 1){  //가격높은순정렬
+        this.sortType[sortType];
+        
+        this.onerooms.sort(function(a, b){
+          return b.price - a.price;
+        }); 
+      }else if(sortType == 2){  //가나다순정렬
+        this.sortType[sortType];
+
+        this.onerooms.sort(function(a, b) {
+        var titleA = a.title.toUpperCase(); // 대소문자 구분 없이 정렬하려면 대문자로 변환
+        var titleB = b.title.toUpperCase();
+
+        if (titleA < titleB) {
+          return -1;
+        } else if (titleA > titleB) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
+      }
     },
   },
   components: {
@@ -76,6 +115,22 @@ export default {
   width: 100%;
   margin-top: 40px;
 }
+
+.sortBtn{
+  margin: 0 10px;
+  padding: 10px;
+  background-color: dodgerblue;
+  color : ivory;
+  font-weight: bold;
+  border-radius: 5px;
+  border: 2px solid blue;
+}
+
+.sortBtn:hover{
+  background-color: blue;
+}
+
+
 
 body{
   margin: 0;
