@@ -5,16 +5,19 @@
           <li>Cancel</li>
         </ul>
         <ul class="header-button-right">
-          <li>Next</li>
+          <li v-if="step==1" @click="step++;">Next</li>
+            <li v-if="step==2" @click="publish();">발행</li>
         </ul>
         <img src="./assets/logo.png" class="logo" />
       </div>
 
-      <Container :posts="posts"></Container>
-      <button @click="more">더보기</button>
+      <h4>안녕  {{$store.state.name}}</h4>
+      <button @click="$store.state.name='에에'">버튼</button>
+      <Container :posts="posts" :step="step" :fileURL="fileURL" @write="content = $event;"></Container>
+      <button @click="more" v-if="step == 0">더보기</button>
       <div class="footer">
-        <ul class="footer-button-plus">
-          <input type="file" id="file" class="inputcfile" />
+        <ul class="footer-button-plus" v-if="step == 0">
+          <input @change="upload" type="file" id="file" class="inputfile" />
           <label for="file" class="input-plus">+</label>
         </ul>
     </div>
@@ -25,18 +28,50 @@
 import Container from './components/Container.vue';
 import posts from './components/posts.js';
 import axios from 'axios';
+
 export default {
   name: "App",
   data(){
     return{
-      posts:posts,
-      moreDate :[],
+      posts,
+      step : 0,
+      postCount : 0,
+      fileURL : '',
+      content : '',
     }
   },
   methods:{
     more(){
-      //https://codingapple1.github.io/vue/more0.json
-    }
+      axios.get(`https://codingapple1.github.io/vue/more${this.postCount}.json`)
+        .then(result => {
+          this.posts.push(result.data);
+          this.postCount ++;
+      })
+    },
+    upload(e){
+      let selectedFile  = e.target.files[0];
+      
+      if (selectedFile){
+        this.fileURL = URL.createObjectURL(selectedFile);
+        this.step = 1;
+      }
+    },
+    publish(){
+      var myContent =  {
+        name: "Kim Hyun",
+        userImage: "https://picsum.photos/100?random=3",
+        postImage: this.fileURL,
+        likes: 36,
+        date: "May 15",
+        liked: false,
+        content: this.content,
+        filter: "perpetua"
+      };
+
+      this.posts.unshift(myContent);
+      console.log("myContent: ", myContent.content);
+      this.step = 0;
+    },
   },
   components: {
     Container
@@ -109,6 +144,13 @@ ul {
 }
 .input-plus {
   cursor: pointer;
+  padding: 20px;
+  background-color: lightgray;
+  border-radius: 20px;
+}
+
+.input-plus:hover{
+  background-color: aqua;
 }
 #app {
   box-sizing: border-box;
