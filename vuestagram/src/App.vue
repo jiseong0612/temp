@@ -11,9 +11,13 @@
         <img src="./assets/logo.png" class="logo" />
       </div>
 
-      <h4>안녕  {{$store.state.name}}</h4>
-      <button @click="$store.state.name='에에'">버튼</button>
-      <Container :posts="posts" :step="step" :fileURL="fileURL" @write="content = $event;"></Container>
+      <h4>안녕  {{$store.state.name}}님 {{$store.state.age}}살</h4>
+      {{$store.state.more}}
+      <button @click="$store.dispatch('getData')">더보기 버튼</button>
+
+      <button @click="$store.commit('updateAge', 10)">나이변경</button>
+      <button @click="$store.commit('changeName')">버튼</button>
+      <Container :posts="posts" :step="step" :fileURL="fileURL" @write="content = $event;" ></Container>
       <button @click="more" v-if="step == 0">더보기</button>
       <div class="footer">
         <ul class="footer-button-plus" v-if="step == 0">
@@ -40,7 +44,15 @@ export default {
       content : '',
     }
   },
+  computed : {
+    now2(){
+      return new Date(); 
+    },
+  },
   methods:{
+    now(){
+      return new Date();
+    },
     more(){
       axios.get(`https://codingapple1.github.io/vue/more${this.postCount}.json`)
         .then(result => {

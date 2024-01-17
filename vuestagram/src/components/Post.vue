@@ -4,9 +4,9 @@
         <div class="profile" ></div>
         <span class="profile-name">{{post.name}}</span>
       </div>
-      <div class="post-body" :style="{backgroundImage : `url(${post.postImage})`}"></div>
+      <div class="post-body" @click="$store.commit('doLike', idx)" :style="{backgroundImage : `url(${post.postImage})`}"></div>
       <div class="post-content">
-        <p>{{post.likes}} Likes</p>
+        <p>{{$store.state.likes[idx]}} Likes</p>
         <p><strong>{{post.name}}</strong> {{post.content}}</p>
         <p class="date">{{post.date}}</p>
       </div>
@@ -18,6 +18,7 @@ export default {
   name:"Post",
   props: {
     post : Object,
+    idx : Number,
   }
 }
 </script>
