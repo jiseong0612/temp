@@ -17,8 +17,17 @@ public class BoardService {
 	 * 게시판 목록 조회
 	 * @return
 	 */
-	public List<Map<String, Object>>getBoardList(){
-		return boardMapper.getBoardList();
+	public List<Map<String, Object>>getBoardList(Map<String, Object>dataMap){
+		return boardMapper.getBoardList(dataMap);
+	}
+	
+	/**
+	 * 게시글 갯수 조회
+	 * @param id
+	 * @return
+	 */
+	public int getTotalCount(Map<String, Object>dataMap) {
+		return boardMapper.getTotalCount(dataMap);
 	}
 
 	/**
