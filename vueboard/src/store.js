@@ -4,17 +4,13 @@ import { createStore } from 'vuex'
 const store = createStore({
   state(){
     return {
-      // name: 'han',
-      // age : 20,
-      // likes : [30,20,10],
-      // postIdx : [],
-      // more :{ name: 'jiseong'},
+      sPage : 1,
     }
   },
   mutations :{
-    // setMore(state, data){
-    //   state.name =data;
-    // },
+    setSpage(state, page){
+      state.sPage = page;
+    },
     // changeName(state){
     //   state.name = 'hhhaaannn';
     // },

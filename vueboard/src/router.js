@@ -5,12 +5,13 @@ import Board from './components/board/Board.vue';
 
 const routes = [
   {
-    path: "/board/:id",
+    path: "/board/page/:page?/id/:id?",
     component: Board,
+    props: true,
   },
   {
-    path: "/board/",
-    component: Board,
+    path: "/board/page/:id",
+    component: BoardList,
   },
   {
     path: "/",

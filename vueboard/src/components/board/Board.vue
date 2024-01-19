@@ -16,7 +16,7 @@
       <button type="button" class="btn btn-primary" @click="updateBoard" v-if="$route.params.id >= 0">수정</button>
       <button type="button" class="btn btn-warning" @click="deleteBoard" v-if="$route.params.id >= 0">삭제</button>
       <button type="button" class="btn btn-primary" @click="insertBoard" v-else>확인</button>
-      <button type="button" class="btn btn-success" @click="$router.push('/')">목록</button>
+      <button type="button" class="btn btn-success" @click="goToList">목록</button>
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default {
   name :"Board",
   data(){
     return {
-      id : this.$route.params.id,
+      id : this.$route.params.page,
       writer : '',
       title : '',
       content : '',
@@ -39,6 +39,9 @@ export default {
     }
   },
   methods: {
+    goToList(){
+      this.$router.push(`/board/page/${this.id}`);
+    },
     getBoard(){
       const boardId= this.$route.params.id;
       axios.get(`/api/board/${boardId}`)
